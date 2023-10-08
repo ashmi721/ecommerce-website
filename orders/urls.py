@@ -1,9 +1,9 @@
 from django.urls import path
-from users.views import home,user_login,user_register
+from .views import shopping_cart,checkout,order_summary
 
 urlpatterns = [
-    path('',home,name = "home_page"),
-    path('login/',user_login,name = "login_page"),
-    path('register/',user_register,name = "register_page"),
+    path('cart/',shopping_cart,name = "cart_page"),
+    path('checkout/',checkout,name = "checkout_page"),
+    path('order-summary/',order_summary,name = "order_summary_page"),
     
 ]
