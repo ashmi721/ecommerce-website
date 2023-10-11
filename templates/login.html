@@ -20,7 +20,7 @@
                     </div>
                   {% endfor %}
                   {% endif %}
-                  <form action="{% url 'login_page' %}" method="post">
+                  <form action="{% url 'login_page' %}" method="post" enctype="multipart/form-data">
                    {% csrf_token %}
                     <div class="d-flex align-items-center mb-3 pb-1">
                       <i class="fa fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
@@ -30,7 +30,7 @@
                     <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
   
                     <div class="form-outline mb-4">
-                      <input type="text" name = "name" id="form2Example17" class="form-control form-control-lg" />
+                      <input type="text" name = "username" id="form2Example17" class="form-control form-control-lg" />
                       <label class="form-label" for="form2Example17">Username</label>
                     </div>
   

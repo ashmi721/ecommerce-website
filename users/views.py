@@ -8,22 +8,22 @@ def home(request):
     return render(request,template_name="index.html")
 
 def user_login(request):
-    # if request.method == "POST":
-    #     email = request.POST.get("email")
-    #     password = request.POST.get("password")
-    #     print("Email: ", email, "Password: ", password)
-    #     check_user = User.objects.filter(email=email)
-    #     if not check_user.exists():
-    #         error = "Account does not exists"
-    #         messages.error(request, error)
-    #         return redirect("/login")
-    #     is_valid_user = authenticate(username=check_user[0].username, password=password)
-    #     if is_valid_user:
-    #         return redirect("/profile")
-    #     else:
-    #         error = "Invalid Email or Password"
-    #         messages.error(request, error)
-    #         return redirect("/login")
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        print("Username: ", username, "Password: ", password)
+        check_user = User.objects.filter(username=username)
+        if not check_user.exists():
+            error = "Account does not exists"
+            messages.error(request, error)
+            return redirect("/login")
+        is_valid_user = authenticate(username=check_user[0].username, password=password)
+        if is_valid_user:
+            return redirect("/profile")
+        else:
+            error = "Invalid Email or Password"
+            messages.error(request, error)
+            return redirect("/login")
     return render(request, "login.html")
 
 def user_register(request):
@@ -64,15 +64,11 @@ def user_register(request):
                 "profile_pic":"N/A"
             }
             profile = Profile.objects.create(**profile_data)
-            
-            print("----*" *50)
-            print(form_data.cleaned_data)
-            print("----*" *50)
-        return redirect("/login")   
-    else:
-        error = form_data.errors
-        messages.error(request,error) 
-        return render("/register")
+            return redirect("/login")   
+        else:
+            error = form_data.errors
+            messages.error(request,error) 
+            return redirect("/register")
     return render(request,"register.html",{"form":form})
             
    
