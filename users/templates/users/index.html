@@ -18,7 +18,7 @@
             <h5 class="card-title">{{ product.title }}</h5>
             <p class="card-text text-danger">RS:{{ product.price }}</p>
             <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <a href="#!" class="btn btn-primary shadow-0 me-1">Add to cart</a>
+              <a href="{% url 'add_to_cart_page' product_id=product.pk %}" class="btn btn-primary shadow-0 me-1">Add to cart</a>
               <a href="{% url 'product_detail_page' product_id=product.pk %}" class="btn btn-light border px-2 pt-2 icon-hover"><i class="fa fa-heart text-secondary px-1"></i></a>
             </div>
           </div>
