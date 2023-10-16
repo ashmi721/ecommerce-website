@@ -11,8 +11,8 @@ class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.proucts.title
+    # def __str__(self):
+    #     return self.Products.title
     
 class Orders(models.Model):
     ORDER_STATUS =[("PENDING","PENDING"),("DELIVERED","DELIVERED"),("ON_THE_WAY","ON THE WAY"),("CANCELLED","CANCELLED")]

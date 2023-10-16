@@ -27,14 +27,36 @@ def add_to_cart(request,product_id):
         "cart_qty":1,
         "cart_total":product.price,
     }
-    Cart.objects.create(**cart_data)
+   
+    check_cart = Cart.objects.filter(user_id=request.user.pk,product_id=product_id)
+    if check_cart.exists():
+        cart = check_cart.first()
+        cart.cart_qty +=1
+        cart.cart_total = product.price *cart.cart_qty
+        cart.save()
+    else:    
+        Cart.objects.create(**cart_data)
+    return redirect("/cart")
+
+def update_cart(request,cart_id):
+    cart = Cart.objects.get(pk = cart_id)
+    if request.method == "POST":
+        quantity = request.POST.get("quantity")
+        # ToDo : validate quantity (if quantity is greater than stock)
+        cart.cart_qty = quantity
+        cart.cart_total = cart.product.price * int(quantity)      
+        cart.save()
+        print("Quantity",quantity,cart_id)
     return redirect("/cart")
 
 def remove_cart(request,cart_id):
     cart = Cart.objects.get(pk=cart_id)
     cart.delete()
+    
+    
+    
     return redirect("/cart")
-
+@login_required
 def checkout(request):
     return render(request,"orders/checkout.html")
 
