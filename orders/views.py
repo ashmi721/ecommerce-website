@@ -52,13 +52,15 @@ def update_cart(request,cart_id):
 def remove_cart(request,cart_id):
     cart = Cart.objects.get(pk=cart_id)
     cart.delete()
-    
-    
-    
     return redirect("/cart")
 @login_required
 def checkout(request):
-    return render(request,"orders/checkout.html")
+    cart_items = Cart.objects.filter(user_id=request.user.pk)
+    total = sum([cart.cart_total for cart in cart_items])
+    discount = 0
+    shipping_cost = 0
+    grand_total = total + shipping_cost - discount
+    return render(request,"orders/checkout.html",{"cart_items":cart_items,"grand_total":grand_total,"total":total,"discount":discount,"shipping_cost":shipping_cost})
 
 def order_summary(request):
     return render(request,"orders/orders.html")
