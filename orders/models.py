@@ -24,6 +24,8 @@ class Orders(models.Model):
     additional_info= models.CharField(max_length=100)
     payment_method = models.CharField(max_length=20,default="COD")
     status=models.CharField(max_length=20,choices=ORDER_STATUS,default="PENDING")
+    shipping_type = models.CharField(max_length=20,default="SELF_PICKUP")
+    discount = models.FloatField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

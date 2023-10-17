@@ -1,0 +1,46 @@
+{% extends 'users/base.html' %}
+{% block content %}
+  
+<section class="bg-light py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-12 col-lg-8 d-flex justify-content-center justify-content-lg-end">
+          <div class="col-xl-12 col-lg-8">
+            <h6 class="mb-3">Summary</h6>
+            <div class="d-flex justify-content-between">
+              <p class="mb-2">Total price:</p>
+              <p class="mb-2">Rs {{order_data.total}}</p>
+            </div>
+            <div class="d-flex justify-content-between">
+              <p class="mb-2">VAT (13%):</p>
+              <p class="mb-2">+ Rs {{order_data.vat_amount}}</p>
+            </div>
+            <div class="d-flex justify-content-between">
+              <p class="mb-2">Discount:</p>
+              <p class="mb-2 text-danger">- Rs {{order_data.discount}}</p>
+            </div>
+            <div class="d-flex justify-content-between">
+              <p class="mb-2">Shipping cost:</p>
+              <p class="mb-2">+ Rs {{order_data.shipping_cost}}</p>
+            </div>
+            <hr/>
+            <div class="d-flex justify-content-between">
+              <p class="mb-2">Total price:</p>
+              <p class="mb-2 fw-bold">Rs {{order_data.grand_total}}</p>
+            </div>
+            <form action="{% url 'thank_you_page' %}"method = "post",enctype="multipart/form-data">
+            {% csrf_token %}
+              <div class="input-group mt-3 mb-4">
+              <button  type="submit" class="btn btn-light text-primary border">Buy Now</button>
+            </div>
+          </form>
+            <hr />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+
+{% endblock %}

@@ -21,8 +21,9 @@
             <span class="text-danger ms-2">Currently Unavailable</span>
            {% endif %}
            <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-           {% if products.quantity > 0 %}
-             <a href="{% url 'add_to_cart_page' product_id=product.pk %}" class="btn btn-primary shadow-0" onclick="return false;"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </a>
+           {% if product.quantity > 0 %}
+           <a href="{% url 'add_to_cart_page' product_id=product.pk %}" class="btn btn-primary shadow-0"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </a>
+          
              {% else %}
              <a href="{% url 'add_to_cart_page' product_id=product.pk %}" class="btn btn-primary shadow-0 me-1" onclick="return false;">Add to cart</a>
              

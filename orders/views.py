@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from .models import Cart
 from products.models import Products
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 # Create your views here.
 @login_required
 def shopping_cart(request):
@@ -9,14 +10,14 @@ def shopping_cart(request):
     has_items = len(carts) >0
     total_cart_amount =0
     grand_total= 0
-    vat_amount = 0
+  
     if has_items:
         # total_cart_amount = sum([Cart.cart_total for cart in carts])
         for item in carts:
             total_cart_amount += item.cart_total
-        vat_amount = total_cart_amount * 0.13
-        grand_total = total_cart_amount + vat_amount
-    return render(request,"orders/cart.html",{"carts":carts,"has_items":has_items,"total_cart_amount":total_cart_amount,"vat_amount":vat_amount,"grand_total":grand_total})
+        
+        grand_total = total_cart_amount
+    return render(request,"orders/cart.html",{"carts":carts,"has_items":has_items,"total_cart_amount":total_cart_amount,"grand_total":grand_total})
 
 @login_required
 def add_to_cart(request,product_id):
@@ -53,16 +54,59 @@ def remove_cart(request,cart_id):
     cart = Cart.objects.get(pk=cart_id)
     cart.delete()
     return redirect("/cart")
+
 @login_required
 def checkout(request):
     cart_items = Cart.objects.filter(user_id=request.user.pk)
     total = sum([cart.cart_total for cart in cart_items])
-    discount = 0
-    shipping_cost = 0
-    grand_total = total + shipping_cost - discount
-    return render(request,"orders/checkout.html",{"cart_items":cart_items,"grand_total":grand_total,"total":total,"discount":discount,"shipping_cost":shipping_cost})
+    grand_total = total
+    context = {"cart_items": cart_items, "grand_total": grand_total, "total": total}
+    if request.method == "POST":
+        shipping_address = request.POST.get("shipping_address")
+        city = request.POST.get("city")
+        additional_info = request.POST.get("message")
+        shipping_type = request.POST.get("shipping_type")
+        print("Form Data", shipping_address, city, additional_info, shipping_type)
+        shipping_cost = settings.SHIPPING_CHARGES[shipping_type]
+        discount = 0
+        vat_amount = total * 0.13
+        order_data = {
+            "user_id": request.user.pk,
+            "products": [{"product_id": cart.product_id,
+                          "qty": cart.cart_qty,
+                          "product_price": cart.product.price,
+                          "total": cart.cart_total,
+                          "title": cart.product.title,
+                          "product_img": cart.product.product_img,
+                          } for cart in cart_items],
+            "total": grand_total,
+            "shipping_address": shipping_address,
+            "city": city,
+            "additional_info": additional_info,
+            "shipping_type": shipping_type,
+            "discount": discount,
+            "shipping_cost": shipping_cost,
+            "vat_amount": vat_amount,
+            "grand_total": total + vat_amount + shipping_cost - discount,
+        }
+        request.session["order_data"] = order_data
+        return redirect("/purchase")
+    return render(request, "orders/checkout.html", context)
 
+@login_required
 def order_summary(request):
     return render(request,"orders/orders.html")
 
+@login_required
+def purchase_now(request):
+    order_data = request.session.get("order_data")
+    context = {"order_data": order_data}
+    if request.method == "POST":
+        Cart.objects.filter(user_id=request.user.pk).delete()
+        del request.session["order_data"]
+        print("Purchase Complete")
+        return redirect("/thank_you")
+    return render(request, "orders/purchase.html", context)
 
+def thankyou(request):
+    return render(request,"orders/thank_you.html")

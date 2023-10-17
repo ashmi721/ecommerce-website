@@ -128,3 +128,9 @@ STATIC_ROOT = BASE_DIR/"staticfiles"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL ='/login'
+
+SHIPPING_CHARGES = {
+    "SELF_PICKUP": 0,
+    "EXPRESS": 300,
+    "POST_OFFICE": 100,
+}

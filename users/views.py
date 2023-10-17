@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from users.forms import UserRegisterForm
 from django.contrib import messages
-from users.models import User,Profile
+from .models import User,Profile
 from django.contrib.auth import authenticate,logout,login
 from django.contrib.auth.decorators import login_required
 from products.models import Products
@@ -88,7 +88,6 @@ def user_profile(request):
         profile_pic=request.FILES.get("profile_img")
         profile_pic_url = save_file(request,profile_pic)
         print("City: ",city,"Address: ",address,"contact:",contact, "Profile_pic: ",profile_pic_url)
-        
         if city != profile.city:
             profile.city = city
         if address != profile.address:
@@ -98,7 +97,6 @@ def user_profile(request):
         if profile_pic_url is not None:
             if profile_pic_url != profile.profile_pic:
                 profile.profile_pic = profile_pic_url
-                
         profile.save()
         return redirect("/profile")
     return render(request,"users/profile.html",context={"profile":profile})
