@@ -38,15 +38,15 @@ https://github.com/ashmi721/ecommerce-website.git
   python manage.py runserver
 ```
 ## Running the project
-Goto http://127.0.0.1:8000/login
-. username: kashmi
+Goto http://127.0.0.1:8000/login <br>
+. username: kashmi <br>
 . password: 123
 
 ## If add the new user first register 
 Goto http://127.0.0.1:8000/register
 
 ## Running Administration
-Goto http://127.0.0.1:8000/admin
+Goto http://127.0.0.1:8000/admin  <br>
 . username: admin <br>
 . password: admin123
 
