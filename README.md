@@ -47,5 +47,6 @@ Goto http://127.0.0.1:8000/register
 
 ## Running Administration
 Goto http://127.0.0.1:8000/admin
-. username: admin
-. password: employee
+. username: admin <br>
+. password: admin123
+
