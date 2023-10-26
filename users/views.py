@@ -27,7 +27,7 @@ def user_login(request):
             request.session["name"] = is_valid_user.first_name
             return redirect("/profile")
         else:
-            error = "Invalid Email or Password"
+            error = "Invalid username or Password"
             messages.error(request, error)
             return redirect("/login")
     return render(request, "users/login.html")
