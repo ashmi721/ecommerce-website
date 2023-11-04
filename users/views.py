@@ -35,8 +35,8 @@ def user_login(request):
 def user_register(request):
     form = UserRegisterForm()
     if request.method == "POST":
-        form_data = UserRegisterForm(request.POST)
-        if form_data.is_valid():
+            form_data = UserRegisterForm(request.POST)
+       
             print("Form Data:",form_data.cleaned_data)
             password = form_data.cleaned_data["password"]
             conform_password = form_data.cleaned_data["conform_password"]
@@ -71,7 +71,7 @@ def user_register(request):
             }
             profile = Profile.objects.create(**profile_data)
             return redirect("/login")   
-        else:
+    else:
             error = form_data.errors
             messages.error(request,error) 
             return redirect("/register")
