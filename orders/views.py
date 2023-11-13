@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Cart
+from .models import Cart,Orders
 from products.models import Products
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -95,8 +95,31 @@ def checkout(request):
 
 @login_required
 def order_summary(request):
-    return render(request,"orders/orders.html")
+    # Get the user's cart items
+    cart_items = Cart.objects.filter(user=request.user).order_by("created_at")
 
+    # Calculate total and grand total
+    total_cart_amount = sum([cart.cart_total for cart in cart_items])
+    grand_total = total_cart_amount
+
+    # Create an order summary dictionary for each cart item
+    order_summary_list = []
+    for cart_item in cart_items:
+        order_summary_list.append({
+            'product': cart_item.product,
+            'quantity': cart_item.cart_qty,
+            'total_price': cart_item.cart_total,
+            'product_pic': cart_item.product.product_img,
+           
+        })
+
+    # Render the order summary page with the calculated values and order summary list
+    return render(request, "orders/orders.html", {
+        "order_summary_list": order_summary_list,
+        "total_cart_amount": total_cart_amount,
+        "grand_total": grand_total
+    })
+    
 @login_required
 def purchase_now(request):
     order_data = request.session.get("order_data")
