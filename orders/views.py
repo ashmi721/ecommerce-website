@@ -110,7 +110,8 @@ def order_summary(request):
             'quantity': cart_item.cart_qty,
             'total_price': cart_item.cart_total,
             'product_pic': cart_item.product.product_img,
-           
+            'prodcut_price':cart_item.product.price,
+            
         })
 
     # Render the order summary page with the calculated values and order summary list

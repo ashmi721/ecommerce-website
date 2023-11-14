@@ -24,17 +24,17 @@
                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                       <p class="text-muted mb-0">{{ order_summary.product.title }}</p>
                     </div>
-                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    {% comment %} <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                       <p class="text-muted mb-0 small">White</p>
                     </div>
                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                       <p class="text-muted mb-0 small">Capacity: 64GB</p>
+                    </div> {% endcomment %}
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">Quantity : {{ order_summary.quantity }}</p>
                     </div>
                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                      <p class="text-muted mb-0 small">{{ order_summary.quantity }}</p>
-                    </div>
-                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                      <p class="text-muted mb-0 small">{{ total_cart_ammount }}</p>
+                      <p class="text-muted mb-0 small">RS :{{ order_summary.product.price }}</p>
                     </div>
                   </div>
                   <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
